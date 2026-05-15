@@ -2,11 +2,13 @@ package com.mybrowser.auto;
 
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 import java.util.Locale;
+import java.util.ArrayList;
 
 public class CarMediaService extends MediaBrowserServiceCompat {
     private static final String TAG = "CarMediaService";
@@ -23,6 +25,18 @@ public class CarMediaService extends MediaBrowserServiceCompat {
     @Override
     public IBinder onBind(Intent intent) {
         return super.onBind(intent);
+    }
+
+    @Override
+    public MediaBrowserServiceCompat.BrowserRoot onGetRoot(String clientPackageName, int clientUid, Bundle rootHints) {
+        // Provide a simple root so clients can connect. 'root' is an arbitrary id.
+        return new MediaBrowserServiceCompat.BrowserRoot("root", null);
+    }
+
+    @Override
+    public void onLoadChildren(String parentId, MediaBrowserServiceCompat.Result result) {
+        // Return an empty list for now. Real media items can be provided here later.
+        result.sendResult(new ArrayList<>());
     }
 
     @Override
