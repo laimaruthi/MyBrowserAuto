@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 import androidx.media.session.MediaButtonReceiver;
 import androidx.media.session.MediaSessionCompat;
+import androidx.media.session.PlaybackStateCompat;
 import androidx.media.app.NotificationCompat;
 import androidx.core.app.NotificationCompat;
 import java.util.Locale;
@@ -76,13 +77,13 @@ public class CarMediaService extends MediaBrowserServiceCompat {
     private void updatePlaybackState() {
         long position = 0;
         long duration = 0;
-        int state = isPlaying ? android.media.session.PlaybackState.STATE_PLAYING : android.media.session.PlaybackState.STATE_PAUSED;
+        int state = isPlaying ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED;
         
-        androidx.media.session.PlaybackStateCompat.Builder builder =
-                new androidx.media.session.PlaybackStateCompat.Builder()
-                        .setActions(androidx.media.session.PlaybackStateCompat.ACTION_PLAY |
-                                androidx.media.session.PlaybackStateCompat.ACTION_PAUSE |
-                                androidx.media.session.PlaybackStateCompat.ACTION_STOP)
+        PlaybackStateCompat.Builder builder =
+                new PlaybackStateCompat.Builder()
+                        .setActions(PlaybackStateCompat.ACTION_PLAY |
+                                PlaybackStateCompat.ACTION_PAUSE |
+                                PlaybackStateCompat.ACTION_STOP)
                         .setState(state, position, 1.0f);
         mediaSession.setPlaybackState(builder.build());
         updateMediaNotification();
@@ -102,9 +103,9 @@ public class CarMediaService extends MediaBrowserServiceCompat {
                         .setMediaSession(mediaSession.getSessionToken())
                         .setShowActionsInCompactView(0, 1))
                 .addAction(android.R.drawable.ic_media_play, "Play",
-                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, android.media.session.PlaybackState.ACTION_PLAY))
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_PLAY))
                 .addAction(android.R.drawable.ic_media_pause, "Pause",
-                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, android.media.session.PlaybackState.ACTION_PAUSE));
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_PAUSE));
 
         startForeground(NOTIFICATION_ID, builder.build());
     }
