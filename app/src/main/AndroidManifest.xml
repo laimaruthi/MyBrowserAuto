@@ -16,6 +16,19 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Handle shared URLs/text from other apps -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <!-- Custom scheme so links like mybrowserauto://open?url=... open this app -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mybrowserauto" android:host="open" />
+            </intent-filter>
         </activity>
     <receiver android:name=".ReadAloudReceiver" android:exported="false" />
         <service android:name=".CarMediaService" android:exported="true">

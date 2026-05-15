@@ -65,6 +65,48 @@ public class MainActivity extends AppCompatActivity {
         });
 
         sendToCarButton.setOnClickListener(view -> sendToCar());
+
+        // handle incoming share or custom-scheme intents
+        handleIncomingIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIncomingIntent(intent);
+    }
+
+    private void handleIncomingIntent(Intent intent) {
+        if (intent == null) return;
+        String action = intent.getAction();
+        if (Intent.ACTION_SEND.equals(action)) {
+            CharSequence text = intent.getCharSequenceExtra(Intent.EXTRA_TEXT);
+            if (text != null) {
+                String url = text.toString();
+                webView.loadUrl(url);
+                // also enqueue for TTS play
+                enqueueReadAloud(url);
+            }
+        } else if (Intent.ACTION_VIEW.equals(action)) {
+            Uri data = intent.getData();
+            if (data != null && "mybrowserauto".equals(data.getScheme())) {
+                String url = data.getQueryParameter("url");
+                if (url != null) {
+                    webView.loadUrl(url);
+                    enqueueReadAloud(url);
+                }
+            }
+        } else {
+            // normal launch, check for extra
+            String open = intent.getStringExtra("open_url");
+            if (open != null) webView.loadUrl(open);
+        }
+    }
+
+    private void enqueueReadAloud(String url) {
+        Intent ttsIntent = new Intent(this, ReadAloudReceiver.class);
+        ttsIntent.putExtra("text", "Read aloud: " + url);
+        sendBroadcast(ttsIntent);
     }
 
     private void loadBlocklist() {

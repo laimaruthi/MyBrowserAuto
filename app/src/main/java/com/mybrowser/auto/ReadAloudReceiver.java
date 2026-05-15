@@ -15,6 +15,15 @@ public class ReadAloudReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String text = intent.getStringExtra("text");
         if (text == null) return;
+        // Try to forward to media service for Android Auto playback
+        Intent svc = new Intent(context, CarMediaService.class);
+        svc.putExtra("play_text", text);
+        try {
+            context.startService(svc);
+            return;
+        } catch (Exception e) {
+            // fallback to local TTS
+        }
 
         if (ttsInstance == null) {
             ttsInstance = new TextToSpeech(context.getApplicationContext(), status -> {
