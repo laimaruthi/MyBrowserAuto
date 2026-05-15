@@ -1,0 +1,11 @@
+# Simple blocklist (host suffixes)
+doubleclick.net
+googlesyndication.com
+adservice.google.com
+ads.youtube.com
+ads.pubmatic.com
+ads.twitter.com
+ctrack.adform.net
+adsystem.com
+adform.net
+adsafeprotected.com
