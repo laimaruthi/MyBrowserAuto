@@ -11,7 +11,7 @@ A minimal Android WebView browser app, built in the cloud via GitHub Actions —
    git add .
    git commit -m "Initial commit"
    git branch -M main
-   git remote add origin https://github.com/<your-username>/MyBrowserAuto.git
+   git remote add origin https://github.com/laimaruthi/MyBrowserAuto.git
    git push -u origin main
    ```
 3. Go to the repo on GitHub → **Actions** tab → wait for **Build Android APK** to finish (~3–5 min).
