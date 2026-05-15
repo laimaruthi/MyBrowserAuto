@@ -18,5 +18,10 @@
             </intent-filter>
         </activity>
     <receiver android:name=".ReadAloudReceiver" android:exported="false" />
+        <service android:name=".CarMediaService" android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>
