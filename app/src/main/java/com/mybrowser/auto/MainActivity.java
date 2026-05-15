@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         loadBlocklist();
         createNotificationChannel();
+    createPersistentNotification();
 
         webView.setWebViewClient(new BrowserClient());
         webView.getSettings().setJavaScriptEnabled(true);
@@ -131,6 +132,22 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             if (notificationManager != null) notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private void createPersistentNotification() {
+    Intent openIntent = new Intent(this, MainActivity.class);
+    PendingIntent openPI = PendingIntent.getActivity(this, 0, openIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+    NotificationCompat.Builder nb = new NotificationCompat.Builder(this, CHANNEL_ID)
+        .setContentTitle("MyBrowserAuto")
+        .setContentText("Tap to open on phone")
+        .setSmallIcon(android.R.drawable.ic_menu_view)
+        .setContentIntent(openPI)
+        .setOngoing(true)
+        .setPriority(NotificationCompat.PRIORITY_LOW);
+
+    NotificationManagerCompat.from(this).notify(2001, nb.build());
     }
 
     @Override
