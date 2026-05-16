@@ -3,19 +3,19 @@ package com.mybrowser.auto;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.Bundle;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 import androidx.media.session.MediaButtonReceiver;
-import androidx.media.session.MediaSessionCompat;
-import androidx.media.session.PlaybackStateCompat;
+import androidx.media.MediaSessionCompat;
+import androidx.media.PlaybackStateCompat;
 import androidx.media.app.NotificationCompat;
-import androidx.core.app.NotificationCompat;
+
 import java.util.Locale;
 import java.util.ArrayList;
 
@@ -94,12 +94,13 @@ public class CarMediaService extends MediaBrowserServiceCompat {
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        androidx.core.app.NotificationCompat.Builder builder = new androidx.core.app.NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        androidx.core.app.NotificationCompat.Builder builder = 
+                new androidx.core.app.NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_media_play)
                 .setContentTitle("MyBrowserAuto")
                 .setContentText(isPlaying ? "Playing..." : "Paused")
                 .setContentIntent(pi)
-                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                .setStyle(new NotificationCompat.MediaStyle()
                         .setMediaSession(mediaSession.getSessionToken())
                         .setShowActionsInCompactView(0, 1))
                 .addAction(android.R.drawable.ic_media_play, "Play",
